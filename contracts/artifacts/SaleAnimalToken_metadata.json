@@ -73,6 +73,19 @@
 						"internalType": "uint256",
 						"name": "_animalTokenId",
 						"type": "uint256"
+					}
+				],
+				"name": "purchaseAnimalToken",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_animalTokenId",
+						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
@@ -217,10 +230,10 @@
 			]
 		},
 		"SaleAnimalToken.sol": {
-			"keccak256": "0xc7c798b33c09fa82f001f3254e46e16bc23d5fb6d76d4a4ee730557961a652da",
+			"keccak256": "0x78df0546b62cd1800be6bc1229324611b7a93d891efc4ae683ace74afea8e556",
 			"urls": [
-				"bzz-raw://ae350a45133744257e0a435c3dccf0529f03b868effb2a62bcb6590ca34fd552",
-				"dweb:/ipfs/QmUfoSwbEVurqfNZjuBEwppRPvZe4aCAyjAuqAAJW4Uwpf"
+				"bzz-raw://1fecc4eb230efd39d04efc02a866e32b5d424303223f559bd7d87a9bb74e5ffa",
+				"dweb:/ipfs/QmRkKjfPPz8Wfq3y39hoerBet1pwCuXgw4uUbkt37YEvbb"
 			]
 		}
 	},

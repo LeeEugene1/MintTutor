@@ -29,8 +29,34 @@ contract SaleAnimalToken{
 
         animalTokenPrices[_animalTokenId] = _price;
 
-        //판매중인것만 배열에 담음 - 프앤에서 필요
+        //판매중인것만 배열에 담음 - 프앤에서 사용
         onSaleAnimalTokenArr.push(_animalTokenId);
     }
+
+//payable키워드를 붙여야 metic이 왓다갓다하는 함수를 실행할 수있다.
+    function purchaseAnimalToken(uint256 _animalTokenId) public payable{
+        uint256 price = animalTokenPrices[_animalTokenId];
+        address animalTokenOwner = mintAnimalTokenAddress.ownerOf(_animalTokenId);
+        require(price > 0, "Animal token not sale");
+        require(price <= msg.value, "Caller sent lower than price.");//사려는 owner value에 10 채워넣어야함
+        require(animalTokenOwner != msg.sender, "Caller is animal token owner.");//같은owner끼리느 거래불가
+    
+        payable(animalTokenOwner).transfer(msg.value);//돈을 주인한테보냄
+        //이제 주인바꾸기(확인: ownerOf())
+        mintAnimalTokenAddress.safeTransferFrom(animalTokenOwner, msg.sender, _animalTokenId);//from, to, tokenid
+    
+        //mapping 에서 제거
+        animalTokenPrices[_animalTokenId] = 0;
+        for(uint256 i=0; i<onSaleAnimalTokenArr.length; i++){
+            if(animalTokenPrices[onSaleAnimalTokenArr[i]] == 0){
+                onSaleAnimalTokenArr[i] = onSaleAnimalTokenArr[onSaleAnimalTokenArr.length - 1];//맨뒤로 보낸담에 pop()
+                onSaleAnimalTokenArr.pop();
+            }
+        }
+    }
+
+    function getOnSaleAnimalTokenArrLength() view public returns (uint256){
+        return onSaleAnimalTokenArr.length;
+    }
 }
-//0xd9145CCE52D386f254917e481eB44e9943F39138
+// 주인이바뀌고 다시 가격을 업데이트하려면 setApproveForAll(sale Contract)
