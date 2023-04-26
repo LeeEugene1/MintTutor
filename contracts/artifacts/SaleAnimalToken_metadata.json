@@ -37,6 +37,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "getOnSaleAnimalTokenArrLength",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "mintAnimalTokenAddress",
 				"outputs": [
 					{
@@ -230,10 +243,10 @@
 			]
 		},
 		"SaleAnimalToken.sol": {
-			"keccak256": "0x78df0546b62cd1800be6bc1229324611b7a93d891efc4ae683ace74afea8e556",
+			"keccak256": "0xe148c8260e067b76987f84c05ece943d3b4c4d210e5108381d1812b1a34b1227",
 			"urls": [
-				"bzz-raw://1fecc4eb230efd39d04efc02a866e32b5d424303223f559bd7d87a9bb74e5ffa",
-				"dweb:/ipfs/QmRkKjfPPz8Wfq3y39hoerBet1pwCuXgw4uUbkt37YEvbb"
+				"bzz-raw://371da20a3431e0f578fbd9476d9b625ab5ee17c7a1db91bd5db2afb54e16214c",
+				"dweb:/ipfs/QmZYU8WNvQs6feaRqZsNRy7RBWEE3u61huhAS5QVxU8erS"
 			]
 		}
 	},
