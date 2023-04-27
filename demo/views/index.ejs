@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="connectButton">Connect Wallet</button>
+    <div id="accounts"></div>
+    <script type="module">
+        import { ethers } from "./ethers-v3.0.min.js";
+        let ethersProvider;
+        let accounts;
+        let forwarderOrigin;
+
+        // Dapp Status Section
+        let onboarding;
+
+        const accountsDiv = document.getElementById('accounts');
+
+        // Basic Actions Section
+        const onboardButton = document.getElementById('connectButton');
+
+        const initialize = async () => {
+            ethersProvider = new ethers.providers.Web3Provider(window.ethereum, 'any');
+            document.querySelector('#connectButton').addEventListener('click',()=>{
+                onClickConnect()
+            })
+        }
+
+        const isMetaMaskConnected = () => accounts && accounts.length > 0;
+
+        const updateButtons = () => {
+
+            if (isMetaMaskConnected()) {
+                onboardButton.innerText = 'Connected';
+                onboardButton.disabled = true;
+                if (onboarding) {
+                    onboarding.stopOnboarding();
+                }
+            } else {
+                onboardButton.innerText = 'Connect';
+                onboardButton.onclick = onClickConnect;
+                onboardButton.disabled = false;
+            }
+        }
+        const onClickConnect = async () => {
+            try {
+            const newAccounts = await window.ethereum.request({
+                method: 'eth_requestAccounts',
+            });
+            handleNewAccounts(newAccounts);
+            } catch (error) {
+            console.error(error);
+            }
+        };
+        function handleNewAccounts(newAccounts) {
+            accounts = newAccounts;
+            accountsDiv.innerHTML = accounts;
+            updateButtons();
+        }
+
+        window.addEventListener('load', initialize);
+
+    </script>
+</body>
+</html>
