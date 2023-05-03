@@ -607,10 +607,10 @@
 			]
 		},
 		"MintAnimalToken.sol": {
-			"keccak256": "0xdbfa4c2b948a389cc8d64c19b32440c728aa350c9b486709ca435e1806436b60",
+			"keccak256": "0x10ca45b2d8d54edd52e70f37d6122764ea5fd6874e73157376df8c8978ac4ac2",
 			"urls": [
-				"bzz-raw://56bd22f5d4296848913ea10e0300afaee5452116d569062ec3541f5feb2ef319",
-				"dweb:/ipfs/QmYhK4GbuiBRVpv4vciiZnmgtWDh2ZeWEtBsgmFEzyfYzD"
+				"bzz-raw://0f63c5b923f1aac341e783f5f6b924c95aa069708fbd363929e896ae715def9e",
+				"dweb:/ipfs/Qmd9kSfAWpfhXtqgWwKWN9A2cAEMxYvHWTTx6ezH8Zuqdg"
 			]
 		}
 	},

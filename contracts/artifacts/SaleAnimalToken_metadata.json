@@ -236,17 +236,17 @@
 			]
 		},
 		"MintAnimalToken.sol": {
-			"keccak256": "0xdbfa4c2b948a389cc8d64c19b32440c728aa350c9b486709ca435e1806436b60",
+			"keccak256": "0x10ca45b2d8d54edd52e70f37d6122764ea5fd6874e73157376df8c8978ac4ac2",
 			"urls": [
-				"bzz-raw://56bd22f5d4296848913ea10e0300afaee5452116d569062ec3541f5feb2ef319",
-				"dweb:/ipfs/QmYhK4GbuiBRVpv4vciiZnmgtWDh2ZeWEtBsgmFEzyfYzD"
+				"bzz-raw://0f63c5b923f1aac341e783f5f6b924c95aa069708fbd363929e896ae715def9e",
+				"dweb:/ipfs/Qmd9kSfAWpfhXtqgWwKWN9A2cAEMxYvHWTTx6ezH8Zuqdg"
 			]
 		},
 		"SaleAnimalToken.sol": {
-			"keccak256": "0xe148c8260e067b76987f84c05ece943d3b4c4d210e5108381d1812b1a34b1227",
+			"keccak256": "0xdb803a32a8d5ef2035be945279da5e4c84fcb6ab0706c8a0a1c76b6c31d622c5",
 			"urls": [
-				"bzz-raw://371da20a3431e0f578fbd9476d9b625ab5ee17c7a1db91bd5db2afb54e16214c",
-				"dweb:/ipfs/QmZYU8WNvQs6feaRqZsNRy7RBWEE3u61huhAS5QVxU8erS"
+				"bzz-raw://10aa386788889e2cc005fa3b458da3454c0f48604fd76ceb7dd089aa95528794",
+				"dweb:/ipfs/QmYuXXihnuQQVKCDBsXh8QQKiTNN3y6brL5cYZMDf3FfHp"
 			]
 		}
 	},

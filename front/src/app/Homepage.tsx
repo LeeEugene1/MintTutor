@@ -3,6 +3,8 @@ import { Web3Button } from '@web3modal/react'
 
 export default function Homepage() {
   return (
-    <Web3Button />
+    <>
+        <Web3Button />
+    </>
   )
 }

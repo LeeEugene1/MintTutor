@@ -60,3 +60,4 @@ contract SaleAnimalToken{
     }
 }
 // 주인이바뀌고 다시 가격을 업데이트하려면 setApproveForAll(sale Contract)
+// 0xe2C36b105F15C99b94028e065213263F763a19b3
