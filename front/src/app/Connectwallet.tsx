@@ -3,18 +3,19 @@ import React from 'react'
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
 //https://wagmi.sh/react/getting-started
-import { configureChains, createClient, WagmiConfig, useAccount, useConnect } from 'wagmi'
+// https://docs.walletconnect.com/2.0/web3modal/react/installation
+import { configureChains, createConfig, WagmiConfig, useAccount, useConnect } from 'wagmi'
 import { arbitrum, mainnet, polygon } from 'wagmi/chains'
 import Homepage from './Homepage'
 
 const chains = [arbitrum, mainnet, polygon]
 const projectId = 'YOUR_PROJECT_ID'
 
-const { provider } = configureChains(chains, [w3mProvider({ projectId })])
-const wagmiClient = createClient({
+const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+const wagmiClient = createConfig({
   autoConnect: true,
   connectors: w3mConnectors({ projectId, version: 1, chains }),
-  provider
+  publicClient
 })
 const ethereumClient = new EthereumClient(wagmiClient, chains)
 
@@ -22,7 +23,7 @@ function Connectwallet() {
     const { address, isConnected } = useAccount()
     return (
         <div>
-            <WagmiConfig client={wagmiClient}>
+            <WagmiConfig config={wagmiClient}>
                 <Homepage />
             </WagmiConfig>
             <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
