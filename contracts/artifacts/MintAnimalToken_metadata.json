@@ -144,6 +144,42 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "_animalTokenOwner",
+						"type": "address"
+					}
+				],
+				"name": "getAnimalTokens",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "animalTokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "animalType",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "animalPrice",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct MintAnimalToken.AnimalTokenData[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "tokenId",
 						"type": "uint256"
@@ -275,6 +311,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "saleAnimalToken",
+				"outputs": [
+					{
+						"internalType": "contract SaleAnimalToken",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -288,6 +337,19 @@
 					}
 				],
 				"name": "setApprovalForAll",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_saleAnimalToken",
+						"type": "address"
+					}
+				],
+				"name": "setSaleAnimalToken",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -607,10 +669,17 @@
 			]
 		},
 		"MintAnimalToken.sol": {
-			"keccak256": "0x10ca45b2d8d54edd52e70f37d6122764ea5fd6874e73157376df8c8978ac4ac2",
+			"keccak256": "0x0b4c7e8490533fe904ddd25f284775b61b9ec04da22b327227f878795651e674",
 			"urls": [
-				"bzz-raw://0f63c5b923f1aac341e783f5f6b924c95aa069708fbd363929e896ae715def9e",
-				"dweb:/ipfs/Qmd9kSfAWpfhXtqgWwKWN9A2cAEMxYvHWTTx6ezH8Zuqdg"
+				"bzz-raw://8f4787644c8af964e33a61c6c23c7f40bb6c031918b1486e013a8088ebed135e",
+				"dweb:/ipfs/Qmc47mpAh7fyv9wTNfe6LuP8mwbE6x9JYNE44cbvkj9wcs"
+			]
+		},
+		"SaleAnimalToken.sol": {
+			"keccak256": "0xb05015abb2893c264a1a2e0e20203f377e88e24e6c67116616240d4a3588cd46",
+			"urls": [
+				"bzz-raw://d333f396852d5a03545fa4668bc4670b46a949b8dbc7f56e4751c25c9ec76295",
+				"dweb:/ipfs/QmSHoymULMPrsFo1gMRAtnS5QKeomFn77q6DXE9jUKAuTu"
 			]
 		}
 	},

@@ -4,8 +4,18 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
+import "SaleAnimalToken.sol";
+
 contract MintAnimalToken is ERC721Enumerable {
     constructor() ERC721("h662Animals", "HAS") {}
+
+    SaleAnimalToken public saleAnimalToken;
+
+    struct AnimalTokenData {
+        uint256 animalTokenId;
+        uint256 animalType;
+        uint256 animalPrice;
+    }
 
     //public : 외부에서 사용가능
     //mapping(key=>value)
@@ -21,5 +31,30 @@ contract MintAnimalToken is ERC721Enumerable {
 
         _mint(msg.sender, animalTokenId);
     }
+
+    //v2: 속도개선을 위해 컨트렉트내부에서 for문 돌리기
+    function getAnimalTokens(address _animalTokenOwner) view public returns (AnimalTokenData[] memory) {
+        uint256 balanceLength = balanceOf(_animalTokenOwner);
+        require (balanceLength != 0, "Owner did not have token.");
+
+        AnimalTokenData[] memory animalTokenData = new AnimalTokenData[](balanceLength);
+
+        for(uint256 i = 0; i < balanceLength; i++){
+            uint256 animalTokenId = tokenOfOwnerByIndex(_animalTokenOwner, i);
+            uint256 animalType = animalTypes[animalTokenId];
+            uint256 animalPrice = saleAnimalToken.getAnimalTokenPrice(animalTokenId);
+
+            animalTokenData[i] = AnimalTokenData(animalTokenId, animalType, animalPrice);
+        }
+
+        return animalTokenData;
+    }
+
+    //v2: saleAnimalToken을 사용하기위해 컨트렉트 배포후에 setSaleAnimalToken(sale컨트렉트주소)등록
+    function setSaleAnimalToken(address _saleAnimalToken) public{
+        saleAnimalToken = SaleAnimalToken(_saleAnimalToken);
+    }
+
 }
-//contract addr:0xCE190e5cA5c76560cD585c83c5Ee54b927f5798c
+//v1: 민팅: mintAnimalToken, 민팅확인: getAnimalTokens
+//contract addr_v2: 0xb18B6Fd54fd1020163C994148eAB9519acBAB86B

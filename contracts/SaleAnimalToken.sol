@@ -58,6 +58,10 @@ contract SaleAnimalToken{
     function getOnSaleAnimalTokenArrLength() view public returns (uint256){
         return onSaleAnimalTokenArr.length;
     }
+    
+    function getAnimalTokenPrice(uint256 _animalTokenId) view public returns (uint256){
+        return animalTokenPrices[_animalTokenId];
+    }
 }
 // 주인이바뀌고 다시 가격을 업데이트하려면 setApproveForAll(sale Contract)
-// 0xe2C36b105F15C99b94028e065213263F763a19b3
+//v2: 0x892D969bc8534ef5deFb93Ee47B46d2429d67dB7

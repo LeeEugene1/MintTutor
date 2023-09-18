@@ -141,6 +141,42 @@ const mintAnimalTokenAbi: AbiItem[] = [
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_animalTokenOwner",
+				"type": "address"
+			}
+		],
+		"name": "getAnimalTokens",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "animalTokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "animalType",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "animalPrice",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct MintAnimalToken.AnimalTokenData[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
@@ -272,6 +308,19 @@ const mintAnimalTokenAbi: AbiItem[] = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "saleAnimalToken",
+		"outputs": [
+			{
+				"internalType": "contract SaleAnimalToken",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -285,6 +334,19 @@ const mintAnimalTokenAbi: AbiItem[] = [
 			}
 		],
 		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_saleAnimalToken",
+				"type": "address"
+			}
+		],
+		"name": "setSaleAnimalToken",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -452,6 +514,25 @@ const saleAnimalTokenAbi: AbiItem[] = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_animalTokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getAnimalTokenPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "getOnSaleAnimalTokenArrLength",
 		"outputs": [
@@ -527,10 +608,10 @@ const saleAnimalTokenAbi: AbiItem[] = [
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-];
+]
 
-const mintAnimalTokenAddr = '0xCE190e5cA5c76560cD585c83c5Ee54b927f5798c'
-const saleAnimalTokenAddr = '0xe2C36b105F15C99b94028e065213263F763a19b3'
+const mintAnimalTokenAddr = '0xb18B6Fd54fd1020163C994148eAB9519acBAB86B'
+const saleAnimalTokenAddr = '0x892D969bc8534ef5deFb93Ee47B46d2429d67dB7'
 
 export const web3 = new Web3(window.ethereum)
 export const mintAninalTokenContract = new web3.eth.Contract(
