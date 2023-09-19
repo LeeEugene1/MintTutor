@@ -7,7 +7,7 @@ import { Web3Modal } from '@web3modal/react'
 import { configureChains, createConfig, WagmiConfig, useAccount, useConnect } from 'wagmi'
 import { arbitrum, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
 import Homepage from './Homepage'
-import Main from '../page/main'
+import Main from '../page'
 
 const chains = [arbitrum, polygonMumbai, polygon]
 const projectId = 'YOUR_PROJECT_ID'

@@ -1,5 +1,5 @@
 import Card from '@/components/Card'
-import { mintAninalTokenContract } from '@/contracts'
+import { mintAninalTokenContract } from '@/utils'
 import React, { FC, useState } from 'react'
 
 interface MainProps {

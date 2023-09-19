@@ -1,4 +1,6 @@
+import { MetaMaskContextProvider } from '@/hooks/UseMetaMask'
 import './globals.css'
+import { GlobalContextProvider } from '@/hooks/store'
 
 export const metadata = {
   title: 'Create Next App',
@@ -12,7 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <MetaMaskContextProvider>
+        {children}
+        </MetaMaskContextProvider>
+      </body>
     </html>
   )
 }
