@@ -3,6 +3,7 @@
 import { useState, useEffect, createContext, PropsWithChildren, useContext, useCallback } from 'react'
 
 import detectEthereumProvider from '@metamask/detect-provider'//https://www.npmjs.com/package/@metamask/detect-provider
+import { web3 } from '@/utils';
 
 interface WalletState {
     accounts: any[]
@@ -17,12 +18,14 @@ interface EnvState{
 
 interface MetaMaskContextData {
     wallet: WalletState
-    // hasProvider: boolean | null
+    hasProvider: boolean | null
     error: boolean
     errorMessage: string
-    // isConnecting: boolean
+    isConnecting: boolean
     connectMetaMask: () => void
+    disconnect: () => void
     clearError: () => void
+    authorize: () => void
     env:EnvState
 }
 const disconnectedState: WalletState = { accounts:[], balance:'', chainId:''}
@@ -30,8 +33,8 @@ const EnvInitialState: EnvState = {VITE_REACT_APP_URL:'',VITE_REACT_APP_AUTH:''}
 const MetaMaskContext = createContext<MetaMaskContextData>({} as MetaMaskContextData)
 
 export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
-    // const [hasProvider, setHasProvider] = useState<boolean | null>(null)
-    // const [isConnecting, setIsConnecting] = useState(false)
+    const [hasProvider, setHasProvider] = useState<boolean | null>(null)
+    const [isConnecting, setIsConnecting] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const clearError = () => setErrorMessage('')
     const [wallet, setWallet] = useState(disconnectedState)
@@ -41,8 +44,9 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
         const accounts = providedAccounts || await window.ethereum.request(
             {method:'eth_accounts'}
         )
-
-        if(accounts.length === 0){
+        const authCheck = sessionStorage.getItem('auth')
+        console.log('authCheck', authCheck)
+        if(!authCheck || accounts.length === 0){
             //if there are no accounts
             setWallet(disconnectedState)
             return
@@ -82,7 +86,7 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
     useEffect(()=>{
         const getProvider = async () => {
             const provider = await detectEthereumProvider({silent:true})
-
+            setHasProvider(Boolean(provider))
             if(provider){
                 updateWalletAndAccounts()
                 window.ethereum.on('accountsChanged', updateWallet)
@@ -114,8 +118,16 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
         }
     }
 
+    const authorize = async () => {
+        let walletAddress = await window.ethereum.request({
+            method: 'eth_requestAccounts',
+        })
+        sessionStorage.setItem('auth', 'test')
+        updateWallet(walletAddress)
+    }
+
     const connectMetaMask = async () => {
-        console.log('cm')
+        setIsConnecting(true)
         const connectNetwork = async (chainId:string, chainName:string, rpcUrls:string) => {
             try {
                 await window.ethereum.request({
@@ -126,8 +138,9 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
                         },
                     ],
                 })
+                await authorize()
             } catch (error) {
-                if (error instanceof Error && 'code' in error) {
+                // error instanceof Error && 'code' in error && 
                     if (error.code === 4902) {
                         try {
                             await window.ethereum.request({
@@ -142,12 +155,11 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
                             })
                             return true //'Network added and switched successfully';
                         } catch (addError) {
-                            throw addError
+                            setErrorMessage(addError.message)
                         }
                     } else {
-                        throw new Error('canceled')
+                        setErrorMessage('canceled')
                     }
-                }
             } finally {
                 let isLocked = await window.ethereum._metamask.isUnlocked();
                 if (!isLocked) {//잠금해제후 다시시작
@@ -156,10 +168,6 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
                     })
                     return connectMetaMask()
                 }
-                let walletAddress = await window.ethereum.request({
-                    method: 'eth_requestAccounts',
-                })
-                updateWallet(walletAddress)
             }
         }
         if (!isMetamaskInstalled()) {
@@ -178,18 +186,26 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
                 'https://polygon-rpc.com/'
             )
         }
+        setIsConnecting(false)
+    }
+
+    const disconnect = async () => {
+        sessionStorage.removeItem('auth')
+        setWallet(disconnectedState)
     }
 
     return (
         <MetaMaskContext.Provider
         value={{
           wallet,
-        //   hasProvider,
+          hasProvider,
           error: !!errorMessage,
           errorMessage,
-        //   isConnecting,
+          isConnecting,
           connectMetaMask,
           clearError,
+          disconnect,
+          authorize,
           env
         }}
       >

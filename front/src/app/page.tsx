@@ -2,11 +2,13 @@
 import { useEffect, useRef, useState } from "react";
 import { UseMetaMask } from "@/hooks/UseMetaMask";
 import Web3 from "web3";
+import { formatAddress } from "@/utils/func";
+import MetamaskError from "@/components/MetamaskError/MetamaskError";
 
 export default function Home() {
   const [web3, setWeb3] = useState<Web3 | undefined>(undefined)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
-  const {wallet, connectMetaMask, env} = UseMetaMask()
+  const {wallet, authorize, hasProvider, isConnecting, connectMetaMask, disconnect, env} = UseMetaMask()
   useEffect(()=>{
     if(typeof window.ethereum !== 'undefined'){
       try {
@@ -22,28 +24,25 @@ export default function Home() {
     if(wallet.accounts.length < 1){
       connectMetaMask()
     }else{
-      const exampleMessage = 'Example `personal_sign` message';
-      try {
-        const from = wallet.accounts;
-        const msg = `0x${Buffer.from(exampleMessage, 'utf8').toString('hex')}`;
-        const sign = await window.ethereum.request({
-          method: 'personal_sign',
-          params: [msg, from, 'Example password'],
-        });
-        // personalSignResult.innerHTML = sign;
-        // personalSignVerify.disabled = false;
-      } catch (err) {
-        console.error(err);
-        // personalSign.innerHTML = `Error: ${err.message}`;
-      }
+      alert('bbb')
     }
   }
 
   return (
    <>
     <div>
-      <button id="handleConnectMetamask" ref={buttonRef} onClick={handleConnectMetamask}>Connect Metamask</button>
-      {wallet.accounts.length > 0 ? wallet.accounts : ''}
+      {
+        (!hasProvider || wallet.accounts.length < 1) &&
+        <button disabled={isConnecting} id="handleConnectMetamask" ref={buttonRef} onClick={handleConnectMetamask}>Connect Metamask</button>
+      }
+      {
+        hasProvider && wallet.accounts.length > 0 &&
+        <div>
+          <p>{formatAddress(wallet.accounts[0])}</p>
+          <button onClick={disconnect}>Logout</button>
+        </div>
+      }
+      <MetamaskError />
     </div>
    </>
   )
