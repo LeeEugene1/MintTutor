@@ -1,6 +1,7 @@
 import { MetaMaskContextProvider } from '@/hooks/UseMetaMask'
 import './globals.css'
 import { GlobalContextProvider } from '@/hooks/store'
+import Link from 'next/link'
 
 export const metadata = {
   title: 'Create Next App',
@@ -16,6 +17,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <MetaMaskContextProvider>
+        <div className="navbar">
+          <Link href='/'>HOME</Link>
+          <Link href='/list'>SHOP</Link>
+          <Link href='/mint'>MINT</Link>
+        </div>
         {children}
         </MetaMaskContextProvider>
       </body>

@@ -1,27 +1,26 @@
-import Card from '@/components/Card'
-import { mintAninalTokenContract } from '@/utils'
-import React, { FC, useState } from 'react'
+"use client"
+import Card from '@/components/Card';
+import { UseMetaMask } from '@/hooks/UseMetaMask';
+import { mintAninalTokenContract } from '@/utils';
+import React, {FC, useState} from 'react'
 
-interface MainProps {
-    address : string
-}
-
-const Main: FC<MainProps> = ({address}) => {
+export default function MINT() {
+    const {wallet} = UseMetaMask()
     const [newCardType, setNewCardType] = useState<string>()
     const onClinkMint = async () => {
         try {
-            if(!address) return;
+            if(!wallet) return;
 
             const response = await mintAninalTokenContract.methods
             .mintAnimalToken()
-            .send({from: address})
+            .send({from: wallet})
             console.log(response)
 
             if(response.status){
-                const balance = await mintAninalTokenContract.methods.balanceOf(address).call()
+                const balance = await mintAninalTokenContract.methods.balanceOf(wallet).call()
             
                 const tokenIdx = await mintAninalTokenContract.methods
-                .tokenOfOwnerByIndex(address, balance.length - 1).call()
+                .tokenOfOwnerByIndex(wallet, balance.length - 1).call()
 
                 const animalType = await mintAninalTokenContract.methods
                 .animalTypes(tokenIdx)
@@ -34,13 +33,11 @@ const Main: FC<MainProps> = ({address}) => {
         }
     }
   return (
-    <>
+    <div>
         {
             newCardType ? <Card newCardType={newCardType}/> : <p>Let's mint animal card</p>
         }
         <button onClick={onClinkMint}>MINT</button>
-    </>
+    </div>
   )
 }
-
-export default Main

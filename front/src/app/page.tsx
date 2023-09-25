@@ -44,7 +44,9 @@ export default function Home() {
     <div>
       <button id="handleConnectMetamask" ref={buttonRef} onClick={handleConnectMetamask}>Connect Metamask</button>
       {wallet.accounts.length > 0 ? wallet.accounts : ''}
+
     </div>
    </>
   )
 }
+//여기는 메인페이지

@@ -11,4 +11,4 @@ install
 ```remixd -s . --remix-ide https://remix.ethereum.org```
 2. visit https://remix.ethereum.org
 2. Change workspace to localhost
-3. Make contract and press deploy
+3. Make contract and press deploy(polygon mumbai)
