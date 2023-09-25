@@ -13,14 +13,14 @@ export default function MINT() {
 
             const response = await mintAninalTokenContract.methods
             .mintAnimalToken()
-            .send({from: wallet})
-            console.log(response)
+            .send({from: wallet.accounts[0]})
+            console.debug(response)
 
             if(response.status){
-                const balance = await mintAninalTokenContract.methods.balanceOf(wallet).call()
+                const balance = await mintAninalTokenContract.methods.balanceOf(wallet.accounts[0]).call()
             
                 const tokenIdx = await mintAninalTokenContract.methods
-                .tokenOfOwnerByIndex(wallet, balance.length - 1).call()
+                .tokenOfOwnerByIndex(wallet.accounts[0], balance.length - 1).call()
 
                 const animalType = await mintAninalTokenContract.methods
                 .animalTypes(tokenIdx)

@@ -44,7 +44,7 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
         const accounts = providedAccounts || await window.ethereum.request(
             {method:'eth_accounts'}
         )
-        const authCheck = sessionStorage.getItem('auth')
+        const authCheck = localStorage.getItem('dapp-auth')
         console.log('authCheck', authCheck)
         if(!authCheck || accounts.length === 0){
             //if there are no accounts
@@ -119,11 +119,34 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
     }
 
     const authorize = async () => {
-        let walletAddress = await window.ethereum.request({
+        let accounts = await window.ethereum.request({
             method: 'eth_requestAccounts',
         })
-        sessionStorage.setItem('auth', 'test')
-        updateWallet(walletAddress)
+        const message = 'dapp-sign'
+        // const message = `0x${Buffer.from('dapp-sign', 'utf8').toString('hex')}`;
+        const hash = web3.utils.soliditySha3(message, accounts[0])
+        const signature = await window.ethereum.request({
+            method: 'personal_sign',
+            params: [hash, accounts[0]]
+        })
+        const option = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                address: accounts[0],
+                signature,
+            }),
+        }
+
+        await fetch('/auth',option)
+        .then(res => res.json())
+        .then(result => {
+            console.log('result',result)
+            localStorage.setItem('dapp-auth', JSON.stringify(result))
+            updateWallet(accounts)
+        })
+        .catch(console.log)
+
     }
 
     const connectMetaMask = async () => {
@@ -190,7 +213,7 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
     }
 
     const disconnect = async () => {
-        sessionStorage.removeItem('auth')
+        localStorage.removeItem('dapp-auth')
         setWallet(disconnectedState)
     }
 
