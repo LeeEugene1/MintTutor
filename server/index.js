@@ -1,3 +1,4 @@
+
 const express = require('express')
 const { validationResult, body } = require('express-validator')
 const app = express()
@@ -5,6 +6,8 @@ const cors = require('cors')
 const cookieParser = require("cookie-parser");
 const Web3 = require("web3");
 const jwt = require("jsonwebtoken");
+const path = require('path'); 
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 app.use(cors())
 app.use(cookieParser());
@@ -22,6 +25,27 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/',(req,res)=>{
 	res.send('GET')
 })
+
+const checkJwt = () => {
+    return (req,res,next) => {
+        try{
+            let req_jwt = req.headers.authrization //|| req.cookies.jwt
+            req.user = jwt.verify(req_jwt, process.env.JWTSECRET)
+            return next()
+        }catch(error){
+            if(error.name === 'TokenExpiredError'){
+                return res.status(419).json({
+                    code:419,
+                    message:'expired token'
+                })
+            }
+            return res.status(401).json({
+                code: 401,
+                message: `invalid token ${error.name}`
+            })
+        }
+    }
+}
 
 app.post('/auth',
     body("address").isEthereumAddress(),
@@ -45,8 +69,18 @@ app.post('/auth',
 
         const payload = {wallet:recovered}
         const option = {expiresIn:'7d', issuer:'server-auth'}
-        const JWTSECRET = 'jwtblabla1234!blablajwt'
-        const jwt_token = jwt.sign(payload, JWTSECRET, option)
+        const jwt_token = jwt.sign(payload, process.env.JWTSECRET, option)
+        // const cookieOptions = {
+        //     // sameSite: "strict",
+        //     sameSite: "none",
+        //     httpOnly: true,
+        //     secure: true,
+        //     // domain: "http://localhost",
+        //     // expires: new Date(Date.now() + parseInt(ENV.AUTH_EXPIREATION)),
+        //     maxAge: 24 * 60 * 60 * 1000,
+        //     path: "/",
+        //   };
+        // res.cookie('jwt', jwt_token, cookieOptions)
 
         return res.status(200).json({
             message:'jwt token issued',
@@ -55,7 +89,9 @@ app.post('/auth',
     }
 )
 
-const PORT = 500
+const PORT = process.env.PORT
+// let PORT = process.env.PORT || 3323;
+
 app.listen(PORT, ()=>{
 	console.log(`The Express server is listening at PORT: ${PORT}`)
 })

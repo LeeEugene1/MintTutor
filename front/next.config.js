@@ -17,8 +17,8 @@ const nextConfig = {
     async rewrites(){
       return [
         {
-          source: '/auth',
-          destination:'http://localhost:500/auth'
+          source: '/:path*',
+          destination:'http://localhost:500/:path*'
         }
       ]
     }

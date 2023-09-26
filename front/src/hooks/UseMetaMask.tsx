@@ -17,12 +17,14 @@ interface EnvState{
 }
 
 interface MetaMaskContextData {
+    QrUrl: string
     wallet: WalletState
     hasProvider: boolean | null
     error: boolean
     errorMessage: string
     isConnecting: boolean
     connectMetaMask: () => void
+    connectKlip: () => void
     disconnect: () => void
     clearError: () => void
     authorize: () => void
@@ -33,35 +35,46 @@ const EnvInitialState: EnvState = {VITE_REACT_APP_URL:'',VITE_REACT_APP_AUTH:''}
 const MetaMaskContext = createContext<MetaMaskContextData>({} as MetaMaskContextData)
 
 export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
+    const [QrUrl, setQrUrl] = useState('')
+    const [logined_platform, setLogined_platform] = useState('metamask')
+    const [wallet, setWallet] = useState(disconnectedState)
     const [hasProvider, setHasProvider] = useState<boolean | null>(null)
     const [isConnecting, setIsConnecting] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const clearError = () => setErrorMessage('')
-    const [wallet, setWallet] = useState(disconnectedState)
     const [env, setEnv] = useState(EnvInitialState)
     // useCallback ensures that you don't uselessly recreate to _updateWallet function on every render
     const _updateWallet = useCallback(async (providedAccounts?: any) => {
-        const accounts = providedAccounts || await window.ethereum.request(
-            {method:'eth_accounts'}
-        )
         const authCheck = localStorage.getItem('dapp-auth')
         console.log('authCheck', authCheck)
-        if(!authCheck || accounts.length === 0){
+        if(!authCheck){
             //if there are no accounts
             setWallet(disconnectedState)
             return
         }
+        if(logined_platform === 'metamask'){
+            const accounts = providedAccounts || await window.ethereum.request(
+                {method:'eth_accounts'}
+            )
+    
+            const balance = await window.ethereum.request({
+                method:'eth_getBalance',
+                params:[accounts[0], 'latest'],
+            })
+    
+            const chainId = await window.ethereum.request({
+                method:'eth_chainId'
+            })
+            setWallet({accounts, balance, chainId})
 
-        const balance = await window.ethereum.request({
-            method:'eth_getBalance',
-            params:[accounts[0], 'latest'],
-        })
+        }else if(logined_platform === 'klip'){
+            const accounts = ['ddd']
+            const balance = '0'
+            const chainId = 'polygon'
+            setWallet({accounts, balance, chainId})
+        }
+        
 
-        const chainId = await window.ethereum.request({
-            method:'eth_chainId'
-        })
-
-        setWallet({accounts, balance, chainId})
     },[])
 
     const updateWalletAndAccounts = useCallback(_updateWallet,[_updateWallet])
@@ -143,12 +156,15 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
         .then(result => {
             console.log('result',result)
             localStorage.setItem('dapp-auth', JSON.stringify(result))
+            // updateWallet({
+            //     ...wallet,
+            //     [accounts] : accounts
+            // })
             updateWallet(accounts)
         })
         .catch(console.log)
 
     }
-
     const connectMetaMask = async () => {
         setIsConnecting(true)
         const connectNetwork = async (chainId:string, chainName:string, rpcUrls:string) => {
@@ -212,6 +228,45 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
         setIsConnecting(false)
     }
 
+    const connectKlip = async () => {
+        setIsConnecting(true)
+        await fetch("https://a2a-api.klipwallet.com/v2/a2a/prepare", {
+            method:'post',
+            headers: { "Content-Type": "application/json" },
+            body:JSON.stringify({
+                bapp: {name:'sheepfarm'},
+                type: 'auth'
+            })
+        })
+        .then(res => res.json())
+        .then(res => {
+            const key = res.request_key;
+            const url = `https://klipwallet.com/?target=/a2a?request_key=${key}`
+            if (navigator.maxTouchPoints > 1) {
+              location.href = `kakaotalk://klipwallet/open?url=https://klipwallet.com/?target=/a2a?request_key=${key}`
+            }else{
+              setQrUrl(url)
+            }
+            // setmodalOpen(...)
+            const intervalId = setInterval(async ()=>{
+              let data = await fetch(`https://a2a-api.klipwallet.com/v2/a2a/result?request_key=${key}`, {
+                  method:"GET",
+                  headers: { "Content-Type": "application/json" },
+              }).then(res => res.json())
+  
+              if(data.status === 'completed'){
+                setWallet(data.result.klaytn_address)
+                setQrUrl('')
+                clearInterval(intervalId)
+                setLogined_platform('klip')
+              }
+              console.log(data.status)
+            },2000)
+        })
+        await authorize()
+        setIsConnecting(false)
+    }
+
     const disconnect = async () => {
         localStorage.removeItem('dapp-auth')
         setWallet(disconnectedState)
@@ -220,12 +275,14 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
     return (
         <MetaMaskContext.Provider
         value={{
+          QrUrl,
           wallet,
           hasProvider,
           error: !!errorMessage,
           errorMessage,
           isConnecting,
           connectMetaMask,
+          connectKlip,
           clearError,
           disconnect,
           authorize,
