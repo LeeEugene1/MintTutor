@@ -36,44 +36,47 @@ const MetaMaskContext = createContext<MetaMaskContextData>({} as MetaMaskContext
 
 export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
     const [QrUrl, setQrUrl] = useState('')
-    const [logined_platform, setLogined_platform] = useState('metamask')
+    // const [logined_platform, setLogined_platform] = useState('metamask')
     const [wallet, setWallet] = useState(disconnectedState)
     const [hasProvider, setHasProvider] = useState<boolean | null>(null)
     const [isConnecting, setIsConnecting] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const clearError = () => setErrorMessage('')
     const [env, setEnv] = useState(EnvInitialState)
+
     // useCallback ensures that you don't uselessly recreate to _updateWallet function on every render
-    const _updateWallet = useCallback(async (providedAccounts?: any) => {
-        const authCheck = localStorage.getItem('dapp-auth')
-        console.log('authCheck', authCheck)
-        if(!authCheck){
+    const _updateWallet = useCallback(async (providedAccounts?: any[]) => {
+        const isWalletInstance = JSON.parse(sessionStorage.getItem('walletInstance'))
+        const isJwt = localStorage.getItem('dapp-auth')
+        if(!isWalletInstance && !isJwt){
             //if there are no accounts
             setWallet(disconnectedState)
             return
         }
-        if(logined_platform === 'metamask'){
-            const accounts = providedAccounts || await window.ethereum.request(
+
+        let accounts:any[] = []
+        let balance = ''
+        let chainId = ''
+
+        if(isWalletInstance.logined_platform === 'metamask'){            
+            accounts = providedAccounts || await window.ethereum.request(
                 {method:'eth_accounts'}
             )
-    
-            const balance = await window.ethereum.request({
-                method:'eth_getBalance',
-                params:[accounts[0], 'latest'],
-            })
-    
-            const chainId = await window.ethereum.request({
-                method:'eth_chainId'
-            })
-            setWallet({accounts, balance, chainId})
-
-        }else if(logined_platform === 'klip'){
-            const accounts = ['ddd']
-            const balance = '0'
-            const chainId = 'polygon'
-            setWallet({accounts, balance, chainId})
+        }else{
+            accounts = providedAccounts || [isWalletInstance.userAddress]
         }
-        
+
+        balance = await window.ethereum.request({
+            method:'eth_getBalance',
+            params:[isWalletInstance.userAddress, 'latest'],
+        }) || 0
+
+        chainId = await window.ethereum.request({//klip 일단보류
+            method:'eth_chainId'
+        }) || null
+
+        setWallet({accounts, balance, chainId})
+
 
     },[])
 
@@ -93,7 +96,7 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
     /**
      * 1.check if Metamask is installed
      * 2 if yes, updateWallet
-     * 3.if no, redirect install Metamask
+     * 3.if no, continue
      * * useEffect + cleanup:it removes the event handlers whenever metamaskProvider is unmounted.
      */
     useEffect(()=>{
@@ -109,7 +112,6 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
                 })
             }else{
                 console.error('please install metamask')
-                isMetamaskInstalled()
             }
         }
         getProvider()
@@ -131,10 +133,12 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
         }
     }
 
+    //metamask only
     const authorize = async () => {
         let accounts = await window.ethereum.request({
             method: 'eth_requestAccounts',
         })
+
         const message = 'dapp-sign'
         // const message = `0x${Buffer.from('dapp-sign', 'utf8').toString('hex')}`;
         const hash = web3.utils.soliditySha3(message, accounts[0])
@@ -156,11 +160,8 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
         .then(result => {
             console.log('result',result)
             localStorage.setItem('dapp-auth', JSON.stringify(result))
-            // updateWallet({
-            //     ...wallet,
-            //     [accounts] : accounts
-            // })
-            updateWallet(accounts)
+            sessionStorage.setItem('walletInstance', JSON.stringify({ userAddress: accounts[0], logined_platform: 'metamask' }));
+            updateWallet(accounts)//arr
         })
         .catch(console.log)
 
@@ -201,6 +202,7 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
                     }
             } finally {
                 let isLocked = await window.ethereum._metamask.isUnlocked();
+                setIsConnecting(false)
                 if (!isLocked) {//잠금해제후 다시시작
                     await window.ethereum.request({
                         method: 'eth_requestAccounts',
@@ -225,12 +227,11 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
                 'https://polygon-rpc.com/'
             )
         }
-        setIsConnecting(false)
     }
 
     const connectKlip = async () => {
         setIsConnecting(true)
-        await fetch("https://a2a-api.klipwallet.com/v2/a2a/prepare", {
+        const {request_key} = await fetch("https://a2a-api.klipwallet.com/v2/a2a/prepare", {
             method:'post',
             headers: { "Content-Type": "application/json" },
             body:JSON.stringify({
@@ -239,36 +240,41 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
             })
         })
         .then(res => res.json())
-        .then(res => {
-            const key = res.request_key;
-            const url = `https://klipwallet.com/?target=/a2a?request_key=${key}`
-            if (navigator.maxTouchPoints > 1) {
-              location.href = `kakaotalk://klipwallet/open?url=https://klipwallet.com/?target=/a2a?request_key=${key}`
+
+        if(request_key){
+            const option = {
+                method:'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    request_key
+                }),
+            }
+
+            const url = `https://klipwallet.com/?target=/a2a?request_key=${request_key}`
+            if (navigator.maxTouchPoints > 1) {//web 아님
+              location.href = `kakaotalk://klipwallet/open?url=https://klipwallet.com/?target=/a2a?request_key=${request_key}`
             }else{
               setQrUrl(url)
             }
-            // setmodalOpen(...)
-            const intervalId = setInterval(async ()=>{
-              let data = await fetch(`https://a2a-api.klipwallet.com/v2/a2a/result?request_key=${key}`, {
-                  method:"GET",
-                  headers: { "Content-Type": "application/json" },
-              }).then(res => res.json())
-  
-              if(data.status === 'completed'){
-                setWallet(data.result.klaytn_address)
-                setQrUrl('')
-                clearInterval(intervalId)
-                setLogined_platform('klip')
-              }
-              console.log(data.status)
-            },2000)
-        })
-        await authorize()
-        setIsConnecting(false)
+
+            const intervalId = setInterval(async () => {
+                const {status, address, jwt_token} = await fetch('/klipResult', option).then(res => res.json())
+                console.log(status)
+                if(status === 'completed'){
+                    localStorage.setItem('dapp-auth', JSON.stringify({jwt_token}))
+                    sessionStorage.setItem('walletInstance', JSON.stringify({ userAddress: address, logined_platform:'klip' }));
+                    await updateWallet([address])
+                    setQrUrl('')
+                    setIsConnecting(false)
+                    clearInterval(intervalId)
+                }
+            }, 2000)
+        }
     }
 
     const disconnect = async () => {
         localStorage.removeItem('dapp-auth')
+        sessionStorage.removeItem('walletInstance')
         setWallet(disconnectedState)
     }
 

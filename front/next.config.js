@@ -19,6 +19,10 @@ const nextConfig = {
         {
           source: '/auth',
           destination:'http://localhost:500/auth'
+        },
+        {
+          source: '/klipResult',
+          destination:'http://localhost:500/klipResult'
         }
       ]
     }
