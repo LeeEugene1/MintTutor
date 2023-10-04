@@ -46,7 +46,7 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
 
     // useCallback ensures that you don't uselessly recreate to _updateWallet function on every render
     const _updateWallet = useCallback(async (providedAccounts?: any[]) => {
-        const isWalletInstance = JSON.parse(sessionStorage.getItem('walletInstance'))
+        const isWalletInstance = JSON.parse(localStorage.getItem('walletInstance'))
         const isJwt = localStorage.getItem('dapp-auth')
         if(!isWalletInstance && !isJwt){
             //if there are no accounts
@@ -160,7 +160,7 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
         .then(result => {
             console.log('result',result)
             localStorage.setItem('dapp-auth', JSON.stringify(result))
-            sessionStorage.setItem('walletInstance', JSON.stringify({ userAddress: accounts[0], logined_platform: 'metamask' }));
+            localStorage.setItem('walletInstance', JSON.stringify({ userAddress: accounts[0], logined_platform: 'metamask' }));
             updateWallet(accounts)//arr
         })
         .catch(console.log)
@@ -262,7 +262,7 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
                 console.log(status)
                 if(status === 'completed'){
                     localStorage.setItem('dapp-auth', JSON.stringify({jwt_token}))
-                    sessionStorage.setItem('walletInstance', JSON.stringify({ userAddress: address, logined_platform:'klip' }));
+                    localStorage.setItem('walletInstance', JSON.stringify({ userAddress: address, logined_platform:'klip' }));
                     await updateWallet([address])
                     setQrUrl('')
                     setIsConnecting(false)
@@ -274,7 +274,7 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
 
     const disconnect = async () => {
         localStorage.removeItem('dapp-auth')
-        sessionStorage.removeItem('walletInstance')
+        localStorage.removeItem('walletInstance')
         setWallet(disconnectedState)
     }
 
