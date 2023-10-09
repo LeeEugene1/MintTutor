@@ -15,3 +15,35 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
+#modal .shell{
+  padding: 20px;
+  background-color: white;
+  /* padding-left: 0!important;
+  padding-right: 0!important; */
+  max-width: 440px;
+  overflow-y: auto!important;
+  max-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  margin: 0 auto;
+  width: 100%;
+}
+
+#modal .button{
+  border: 1px solid lightgray;
+  background-color: transparent;
+  /* color: var(--link-color); */
+  border-radius: 23px;
+  height: 46px;
+  font-size: 18px;
+}
+
+#modal .modal-body{
+  max-height: 200px;
+  flex: auto;
+  text-align: initial;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
