@@ -18,6 +18,7 @@ interface EnvState{
 
 interface MetaMaskContextData {
     QrUrl: string
+    intervalId:number | string
     wallet: WalletState
     hasProvider: boolean | null
     error: boolean
@@ -25,6 +26,7 @@ interface MetaMaskContextData {
     isConnecting: boolean
     connectMetaMask: () => void
     connectKlip: () => void
+    resetKlip: (intervalId:number | string) => void
     disconnect: () => void
     clearError: () => void
     authorize: () => void
@@ -36,6 +38,7 @@ const MetaMaskContext = createContext<MetaMaskContextData>({} as MetaMaskContext
 
 export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
     const [QrUrl, setQrUrl] = useState('')
+    const [intervalId, setIntervalId] = useState<NodeJS.Timer | null>(null); // 타입을 명시적으로 선언
     // const [logined_platform, setLogined_platform] = useState('metamask')
     const [wallet, setWallet] = useState(disconnectedState)
     const [hasProvider, setHasProvider] = useState<boolean | null>(null)
@@ -256,20 +259,32 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
             }else{
               setQrUrl(url)
             }
-
+            let count = 0
             const intervalId = setInterval(async () => {
+                count++
                 const {status, address, jwt_token} = await fetch('/klipResult', option).then(res => res.json())
                 console.log(status)
                 if(status === 'completed'){
                     localStorage.setItem('dapp-auth', JSON.stringify({jwt_token}))
                     localStorage.setItem('walletInstance', JSON.stringify({ userAddress: address, logined_platform:'klip' }));
                     await updateWallet([address])
-                    setQrUrl('')
-                    setIsConnecting(false)
-                    clearInterval(intervalId)
+                    resetKlip(intervalId)
+                    window.location.reload()
                 }
+                if(count > 2){
+                    resetKlip(intervalId)
+                    setIsConnecting(false)
+                    connectKlip()
+                }
+                setIntervalId(intervalId)//외부에서 사용
+                console.log('count',count)
             }, 2000)
         }
+    }
+
+    const resetKlip = (id: number | string) => {
+        setQrUrl('')
+        clearInterval(id)
     }
 
     const disconnect = async () => {
@@ -282,12 +297,14 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
         <MetaMaskContext.Provider
         value={{
           QrUrl,
+          intervalId,
           wallet,
           hasProvider,
           error: !!errorMessage,
           errorMessage,
           isConnecting,
           connectMetaMask,
+          resetKlip,
           connectKlip,
           clearError,
           disconnect,
