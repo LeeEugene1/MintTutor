@@ -39,6 +39,7 @@ const MetaMaskContext = createContext<MetaMaskContextData>({} as MetaMaskContext
 export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
     const [QrUrl, setQrUrl] = useState('')
     const [intervalId, setIntervalId] = useState<NodeJS.Timer | null>(null); // 타입을 명시적으로 선언
+    const [counts, setCounts] = useState(0)
     // const [logined_platform, setLogined_platform] = useState('metamask')
     const [wallet, setWallet] = useState(disconnectedState)
     const [hasProvider, setHasProvider] = useState<boolean | null>(null)
@@ -95,6 +96,13 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
         //     setEnv({VITE_REACT_APP_URL, VITE_REACT_APP_AUTH})
         // }
     },[])//딱 1번만
+
+    useEffect(()=>{
+        if(counts > 10 && intervalId > 0 && isConnecting){
+            resetKlip(intervalId)
+            connectKlip()
+        }
+    },[counts, intervalId])
 
     /**
      * 1.check if Metamask is installed
@@ -263,7 +271,7 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
             const intervalId = setInterval(async () => {
                 count++
                 const {status, address, jwt_token} = await fetch('/klipResult', option).then(res => res.json())
-                console.log(status)
+                console.debug(status)
                 if(status === 'completed'){
                     localStorage.setItem('dapp-auth', JSON.stringify({jwt_token}))
                     localStorage.setItem('walletInstance', JSON.stringify({ userAddress: address, logined_platform:'klip' }));
@@ -271,13 +279,11 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
                     resetKlip(intervalId)
                     window.location.reload()
                 }
-                if(count > 2){
+                if(count > 11){
                     resetKlip(intervalId)
-                    setIsConnecting(false)
-                    connectKlip()
                 }
+                setCounts(count)
                 setIntervalId(intervalId)//외부에서 사용
-                console.log('count',count)
             }, 2000)
         }
     }
@@ -285,6 +291,7 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
     const resetKlip = (id: number | string) => {
         setQrUrl('')
         clearInterval(id)
+        setIsConnecting(false)
     }
 
     const disconnect = async () => {

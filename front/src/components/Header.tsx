@@ -6,12 +6,14 @@ import Web3 from "web3";
 import QRCode from "react-qr-code";
 import { formatAddress } from "@/utils/func";
 import { UseMetaMask } from "@/hooks/UseMetaMask";
+import Loading from "./Loading";
+import Timer from "./Timer";
 
 const Header:React.FC= () => {
   const [showModal, setShowModal] = useState(false)
   const [web3, setWeb3] = useState<Web3 | undefined>(undefined)
   const navRef = useRef<HTMLButtonElement | null>(null)
-  const {wallet, QrUrl, connectKlip, isConnecting, connectMetaMask, disconnect, env} = UseMetaMask()
+  const {wallet, intervalId, QrUrl, connectKlip, resetKlip, isConnecting, connectMetaMask, disconnect, env} = UseMetaMask()
   
   useEffect(()=>{
     if(typeof window.ethereum !== 'undefined'){
@@ -24,14 +26,6 @@ const Header:React.FC= () => {
     }
   },[])
 
-  const handleConnetWallet = async () => {
-      connectMetaMask()
-      setShowModal(false)
-  }
-  const handleConnectKlip = () => {
-      connectKlip()
-      // setShowModal(false)
-  }
   const handleConnect = () => {
     setShowModal(true)
   }
@@ -39,6 +33,11 @@ const Header:React.FC= () => {
   const handleCloseModal = (e:any) => {
     e.preventDefault()
     setShowModal(false)
+    handleInitModal()
+  }
+
+  const handleInitModal = () => {
+    resetKlip(intervalId)
   }
 
   const handleModeChange = () => {
@@ -142,11 +141,10 @@ const Header:React.FC= () => {
             <div className="modal-body">
                     {
                       QrUrl.length > 0 ?
-                      <div className="m-4 space-y-2">
+                      <div className="m-4 space-y-2" onClick={handleInitModal}>
                          <div className="flex items-center">
                             <div className="flex items-center space-x-2 cursor-pointer">
-                            
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path></svg>
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path></svg>
                               <p>뒤로가기</p>
                             </div>
                             
@@ -159,30 +157,30 @@ const Header:React.FC= () => {
                           value={QrUrl}
                           viewBox={`0 0 256 256`}
                           />
-                          <div className="flex justify-between items-center space-x-2">
-                            <p className="text-center">
-                              10:00
-                            </p>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                            </svg>
-                          </div>
+                            <Timer/>
                         </div>
                       </div>
                       :
                       <div className="m-4 space-y-2">
-                        <div className="block" onClick={handleConnetWallet}>
+                        <div className="block cursor-pointer" onClick={connectMetaMask}>
                               <button disabled={isConnecting} type="button" className="button px-[22px] flex w-full items-center justify-center" data-testid="button-connnect-wallet-injected">
-                                <img src="https://snapshot.4everland.link/ipfs/QmTE7VPXMhriKAobMWEiC5S3oG22p4G6AXGyGdNWQTQ3Fv" height="28" width="28" className="-mt-1 mr-2" alt="MetaMask"/> 
-                                MetaMask
+                                {
+                                  isConnecting ? 
+                                    <Loading/>
+                                    : 
+                                    <>
+                                    <img src="https://snapshot.4everland.link/ipfs/QmTE7VPXMhriKAobMWEiC5S3oG22p4G6AXGyGdNWQTQ3Fv" height="28" width="28" className="-mt-1 mr-2" alt="MetaMask"/> 
+                                      MetaMask
+                                    </>
+                                }
                               </button>
                           </div>
-                          <div className="block" onClick={handleConnectKlip}>
+                          <div className="block cursor-pointer" onClick={connectKlip}>
                               <button disabled={isConnecting} type="button" className="button px-[22px] flex w-full items-center justify-center gap-2">
-                                  <div className="flex justify-center w-[28px]">
-                                    <img src="/logo_klip.png" className="max-w-[50px]" width="50" alt="Klip"/>
-                                  </div>
-                                  <span>Klip</span>
+                                <div className="flex justify-center w-[28px]">
+                                  <img src="/logo_klip.png" className="max-w-[50px]" width="50" alt="Klip"/>
+                                </div>
+                                <span>Klip</span>
                               </button>
                         </div>
                       </div>
