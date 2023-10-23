@@ -28,11 +28,13 @@ const Header:React.FC= () => {
         console.log(error) 
       }
     }
-    AOS.init()
+    
   },[])
 
-
   useEffect(()=>{
+    if(pathname ==='/'){
+      AOS.init()
+    }
     if(wallet?.accounts?.length === 0){
       if(pathname === '/list'){
         setShowModal(true)
@@ -84,7 +86,7 @@ const Header:React.FC= () => {
       <header className="bg-[#EBF5FE] p-4 dark:bg-slate-900/75">
         <div className="container mx-auto flex justify-between items-center">
             <div className="text-white text-xl font-semibold">
-              <Link className="text-header-gradient" href='/home'>Mint Tutor</Link>
+              <Link className="text-header-gradient" href='/'>Mint Tutor</Link>
             </div>
             <nav className="hidden md:flex items-center space-x-4 transition-menu opacity-100">
               <Link href='/list' className="hover:text-gray-500">TUTOR</Link>
