@@ -8,6 +8,8 @@ import { formatAddress } from "@/utils/func";
 import { UseMetaMask } from "@/hooks/UseMetaMask";
 import Loading from "./Loading";
 import Timer from "./Timer";
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const Header:React.FC= () => {
   const [showModal, setShowModal] = useState(false)
@@ -24,7 +26,13 @@ const Header:React.FC= () => {
         console.log(error) 
       }
     }
+    AOS.init()
   },[])
+
+  useEffect(()=>{
+    setShowModal(false)
+    handleInitModal()
+  },[wallet])
 
   const handleConnect = () => {
     setShowModal(true)
@@ -63,15 +71,16 @@ const Header:React.FC= () => {
   }
 
   return (
-    <div id="app">
-      <header className="bg-blue-500 p-4 dark:bg-slate-900/75">
+    <div id="navbar">
+      <header className="bg-[#EBF5FE] p-4 dark:bg-slate-900/75">
         <div className="container mx-auto flex justify-between items-center">
             <div className="text-white text-xl font-semibold">
-              <Link href='/'>LOGO</Link>
+              <Link className="text-header-gradient" href='/home'>Mint Tutor</Link>
             </div>
             <nav className="hidden md:flex items-center space-x-4 transition-menu opacity-100">
-              <Link href='/list' className="hover:text-gray-500">MINE</Link>
+              <Link href='/list' className="hover:text-gray-500">TUTOR</Link>
               <Link href='/mint' className="hover:text-gray-500">CREATE</Link>
+              <Link href='/chat' className="hover:text-gray-500">CHAT</Link>
               {
                 (wallet.accounts.length < 1) ?
                 <button className="px-4 py-2 font-semibold text-sm bg-white text-slate-700 border border-slate-300 rounded-md shadow-sm ring-gray-border-300 ring-offset-2 ring-offset-slate-50 
@@ -87,7 +96,13 @@ const Header:React.FC= () => {
                 dark:bg-slate-700 dark:text-slate-200 dark:border-transparent"
                   onClick={disconnect}
                 >
-                  Disconnect</button>
+                  {
+                    wallet.accounts.length > 0 &&
+                    <div>
+                      <p>{formatAddress(wallet.accounts[0])}</p>
+                    </div>
+                  }
+                </button>
               }
               {/* <p onClick={handleModeChange}>Mode</p> */}
             </nav>
@@ -105,7 +120,7 @@ const Header:React.FC= () => {
     </header>
     {/* Moblle */}
     <nav ref={navRef} className="hidden flex flex-col transition-menu bg-blue-500 p-4 dark:bg-slate-900/75">
-        <Link href='/list' className="text-center hover:text-gray-500">MINE</Link>
+        <Link href='/list' className="text-center hover:text-gray-500">TUTOR</Link>
         <Link href='/mint' className="text-center hover:text-gray-500">CREATE</Link>
         {
           (wallet.accounts.length < 1) ? 
@@ -187,14 +202,6 @@ const Header:React.FC= () => {
                     }
             </div>
           </div>
-        </div>
-      }
-            
-        
-      {
-        wallet.accounts.length > 0 &&
-        <div>
-          <p>{formatAddress(wallet.accounts[0])}</p>
         </div>
       }
     </div>

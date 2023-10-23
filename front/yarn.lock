@@ -1147,6 +1147,24 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     "to-fast-properties" "^2.0.0"
 
+"@chatscope/chat-ui-kit-react@^1.10.1":
+  "integrity" "sha512-pJIxvM9zR2oPk601P/S3Du1lZZSQcv76+8/IUhhWo88oy1iqiw2yk71T3nzE0sr8kRfZ8FoSSxOjVx9j7amjow=="
+  "resolved" "https://registry.npmjs.org/@chatscope/chat-ui-kit-react/-/chat-ui-kit-react-1.10.1.tgz"
+  "version" "1.10.1"
+  dependencies:
+    "@chatscope/chat-ui-kit-styles" "^1.2.0"
+    "@fortawesome/fontawesome-free" "^5.12.1"
+    "@fortawesome/fontawesome-svg-core" "^1.2.26"
+    "@fortawesome/free-solid-svg-icons" "^5.12.0"
+    "@fortawesome/react-fontawesome" "^0.1.8"
+    "classnames" "^2.2.6"
+    "prop-types" "^15.7.2"
+
+"@chatscope/chat-ui-kit-styles@^1.2.0":
+  "integrity" "sha512-016mBJD3DESw7Nh+lkKcPd22xG92ghA0VpIXIbjQtmXhC7Ve6wRazTy8z1Ahut+Tbv179+JxrftuMngsj/yV8Q=="
+  "resolved" "https://registry.npmjs.org/@chatscope/chat-ui-kit-styles/-/chat-ui-kit-styles-1.4.0.tgz"
+  "version" "1.4.0"
+
 "@coinbase/wallet-sdk@^3.6.6":
   "integrity" "sha512-vX+epj/Ttjo7XRwlr3TFUUfW5GTRMvORpERPwiu7z2jl3DSVL4rXLmHt5y6LDPlUVreas2gumdcFbu0fLRG9Jg=="
   "resolved" "https://registry.npmjs.org/@coinbase/wallet-sdk/-/wallet-sdk-3.6.6.tgz"
@@ -1955,6 +1973,37 @@
     "@ethersproject/logger" "^5.7.0"
     "@ethersproject/properties" "^5.7.0"
     "@ethersproject/strings" "^5.7.0"
+
+"@fortawesome/fontawesome-common-types@^0.2.36":
+  "integrity" "sha512-a/7BiSgobHAgBWeN7N0w+lAhInrGxksn13uK7231n2m8EDPE3BMCl9NZLTGrj9ZXfCmC6LM0QLqXidIizVQ6yg=="
+  "resolved" "https://registry.npmjs.org/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.36.tgz"
+  "version" "0.2.36"
+
+"@fortawesome/fontawesome-free@^5.12.1":
+  "integrity" "sha512-eYm8vijH/hpzr/6/1CJ/V/Eb1xQFW2nnUKArb3z+yUWv7HTwj6M7SP957oMjfZjAHU6qpoNc2wQvIxBLWYa/Jg=="
+  "resolved" "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.4.tgz"
+  "version" "5.15.4"
+
+"@fortawesome/fontawesome-svg-core@^1.2.26", "@fortawesome/fontawesome-svg-core@~1 || ~6":
+  "integrity" "sha512-YUcsLQKYb6DmaJjIHdDWpBIGCcyE/W+p/LMGvjQem55Mm2XWVAP5kWTMKWLv9lwpCVjpLxPyOMOyUocP1GxrtA=="
+  "resolved" "https://registry.npmjs.org/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.36.tgz"
+  "version" "1.2.36"
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.36"
+
+"@fortawesome/free-solid-svg-icons@^5.12.0":
+  "integrity" "sha512-JLmQfz6tdtwxoihXLg6lT78BorrFyCf59SAwBM6qV/0zXyVeDygJVb3fk+j5Qat+Yvcxp1buLTY5iDh1ZSAQ8w=="
+  "resolved" "https://registry.npmjs.org/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.15.4.tgz"
+  "version" "5.15.4"
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.36"
+
+"@fortawesome/react-fontawesome@^0.1.8":
+  "integrity" "sha512-Hyb+lB8T18cvLNX0S3llz7PcSOAJMLwiVKBuuzwM/nI5uoBw+gQjnf9il0fR1C3DKOI5Kc79pkJ4/xB0Uw9aFQ=="
+  "resolved" "https://registry.npmjs.org/@fortawesome/react-fontawesome/-/react-fontawesome-0.1.19.tgz"
+  "version" "0.1.19"
+  dependencies:
+    "prop-types" "^15.8.1"
 
 "@hapi/hoek@^9.0.0":
   "integrity" "sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ=="
@@ -3896,6 +3945,15 @@
     "normalize-path" "^3.0.0"
     "picomatch" "^2.0.4"
 
+"aos@^2.3.4":
+  "integrity" "sha512-zh/ahtR2yME4I51z8IttIt4lC1Nw0ktsFtmeDzID1m9naJnWXhCoARaCgNOGXb5CLy3zm+wqmRAEgMYB5E2HUw=="
+  "resolved" "https://registry.npmjs.org/aos/-/aos-2.3.4.tgz"
+  "version" "2.3.4"
+  dependencies:
+    "classlist-polyfill" "^1.0.3"
+    "lodash.debounce" "^4.0.6"
+    "lodash.throttle" "^4.0.1"
+
 "appdirsjs@^1.2.4":
   "integrity" "sha512-Quji6+8kLBC3NnBeo14nPDq0+2jUs5s3/xEye+udFHumHhRk4M7aAMXp/PBJqkKYGuuyR9M/6Dq7d2AViiGmhw=="
   "resolved" "https://registry.npmjs.org/appdirsjs/-/appdirsjs-1.2.7.tgz"
@@ -4805,6 +4863,16 @@
   "integrity" "sha512-rhjH9AG1fvabIDoGRVH587413LPjTZgmDF9fOFCbFJQV4yuocX1mHxxvXI4g3cGwbVY9wAYIoKlg1N79frJKQw=="
   "resolved" "https://registry.npmjs.org/class-is/-/class-is-1.1.0.tgz"
   "version" "1.1.0"
+
+"classlist-polyfill@^1.0.3":
+  "integrity" "sha512-GzIjNdcEtH4ieA2S8NmrSxv7DfEV5fmixQeyTmqmRmRJPGpRBaSnA2a0VrCjyT8iW8JjEdMbKzDotAJf+ajgaQ=="
+  "resolved" "https://registry.npmjs.org/classlist-polyfill/-/classlist-polyfill-1.2.0.tgz"
+  "version" "1.2.0"
+
+"classnames@^2.2.6":
+  "integrity" "sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw=="
+  "resolved" "https://registry.npmjs.org/classnames/-/classnames-2.3.2.tgz"
+  "version" "2.3.2"
 
 "cli-cursor@^3.1.0":
   "integrity" "sha512-I/zHAwsKf9FqGoXM4WWRACob9+SNukZTd94DWF57E4toouRulbCxcUh6RKUEOQlYTHJnzkPMySvPNaaSLNfLZw=="
@@ -8188,7 +8256,7 @@
   dependencies:
     "p-locate" "^5.0.0"
 
-"lodash.debounce@^4.0.8":
+"lodash.debounce@^4.0.6", "lodash.debounce@^4.0.8":
   "integrity" "sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow=="
   "resolved" "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   "version" "4.0.8"
@@ -8203,7 +8271,7 @@
   "resolved" "https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.2.tgz"
   "version" "4.6.2"
 
-"lodash.throttle@^4.1.1":
+"lodash.throttle@^4.0.1", "lodash.throttle@^4.1.1":
   "integrity" "sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ=="
   "resolved" "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
   "version" "4.1.1"
@@ -10054,7 +10122,7 @@
     "shell-quote" "^1.6.1"
     "ws" "^7"
 
-"react-dom@^16 || ^17 || ^18", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18", "react-dom@^18.2.0", "react-dom@>= 16.8.0", "react-dom@>=16.4.1", "react-dom@>=17", "react-dom@18.2.0":
+"react-dom@^16 || ^17 || ^18", "react-dom@^16.12.0 || ^17.0.0 || ^18.2.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18", "react-dom@^18.2.0", "react-dom@>= 16.8.0", "react-dom@>=16.4.1", "react-dom@>=17", "react-dom@18.2.0":
   "integrity" "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   "version" "18.2.0"
@@ -10174,7 +10242,7 @@
     "object-assign" "^4.1.1"
     "react-is" "^16.12.0 || ^17.0.0 || ^18.0.0"
 
-"react@*", "react@^16 || ^17 || ^18", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.x || ^17.x || ^18.x", "react@^17.0.2 || ^18", "react@^18.2.0", "react@>= 0.11.2 < 18.0.0", "react@>= 16", "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.4.1", "react@>=16.8", "react@>=17", "react@>=17.0.0", "react@18.2.0":
+"react@*", "react@^16 || ^17 || ^18", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.12.0 || ^17.0.0 || ^18.2.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.x || ^17.x || ^18.x", "react@^17.0.2 || ^18", "react@^18.2.0", "react@>= 0.11.2 < 18.0.0", "react@>= 16", "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.4.1", "react@>=16.8", "react@>=16.x", "react@>=17", "react@>=17.0.0", "react@18.2.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"

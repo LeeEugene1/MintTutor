@@ -23,7 +23,11 @@ const nextConfig = {
         {
           source: '/klipResult',
           destination:'http://localhost:500/klipResult'
-        }
+        },
+        {
+          source: '/chat',
+          destination:'https://api.openai.com/v1/completions'
+        },
       ]
     }
   }

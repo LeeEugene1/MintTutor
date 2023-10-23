@@ -37,7 +37,7 @@ export default function MINT() {
         {
             newCardType ? <Card newCardType={newCardType}/> : <p>Let's mint animal card</p>
         }
-        <button onClick={onClinkMint}>MINT</button>
+        <button onClick={onClinkMint}>Create Tutor</button>
     </div>
   )
 }

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chatscope/chat-ui-kit-react": "^1.10.1",
     "@coinbase/wallet-sdk": "^3.6.6",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
@@ -21,6 +22,7 @@
     "@walletconnect/qrcode-modal": "^1.8.0",
     "@web3modal/ethereum": "^2.4.1",
     "@web3modal/react": "^2.4.1",
+    "aos": "^2.3.4",
     "autoprefixer": "10.4.14",
     "encoding": "^0.1.13",
     "eslint": "8.38.0",
