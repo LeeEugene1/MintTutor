@@ -10,13 +10,15 @@ import Loading from "./Loading";
 import Timer from "./Timer";
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import { usePathname } from 'next/navigation'
 
 const Header:React.FC= () => {
   const [showModal, setShowModal] = useState(false)
   const [web3, setWeb3] = useState<Web3 | undefined>(undefined)
   const navRef = useRef<HTMLButtonElement | null>(null)
   const {wallet, intervalId, QrUrl, connectKlip, resetKlip, isConnecting, connectMetaMask, disconnect, env} = UseMetaMask()
-  
+  // const router = useRouter()
+  const pathname = usePathname()
   useEffect(()=>{
     if(typeof window.ethereum !== 'undefined'){
       try {
@@ -29,10 +31,17 @@ const Header:React.FC= () => {
     AOS.init()
   },[])
 
+
   useEffect(()=>{
-    setShowModal(false)
-    handleInitModal()
-  },[wallet])
+    if(wallet?.accounts?.length === 0){
+      if(pathname === '/list'){
+        setShowModal(true)
+      }
+    }else{
+      setShowModal(false)
+      handleInitModal()
+    }
+  },[wallet, pathname])
 
   const handleConnect = () => {
     setShowModal(true)
@@ -81,6 +90,9 @@ const Header:React.FC= () => {
               <Link href='/list' className="hover:text-gray-500">TUTOR</Link>
               <Link href='/mint' className="hover:text-gray-500">CREATE</Link>
               <Link href='/chat' className="hover:text-gray-500">CHAT</Link>
+              {/* <button type="button" className="hover:text-gray-500" onClick={()=>router.push('/list')}>
+                TUTOR
+              </button> */}
               {
                 (wallet.accounts.length < 1) ?
                 <button className="px-4 py-2 font-semibold text-sm bg-white text-slate-700 border border-slate-300 rounded-md shadow-sm ring-gray-border-300 ring-offset-2 ring-offset-slate-50 
