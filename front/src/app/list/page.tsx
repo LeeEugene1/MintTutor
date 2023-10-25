@@ -1,10 +1,13 @@
 "use client"
 //url: /list 접속시 page.tsx가 나옴
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { mintAninalTokenContract } from '@/utils';
 import { UseMetaMask } from '@/hooks/UseMetaMask';
 import { formatAddress } from "@/utils/func";
 import Image from 'next/image';
+
+import Loading from '@/components/Loading';
+import Card from '@/components/Card';
 
 type CardType = {
   animalTokenId:string,
@@ -15,6 +18,9 @@ type CardType = {
 export default function List() {
   const {wallet} = UseMetaMask()
   const [cardList, setCardList] = useState<[] | CardType[]>([])
+  const [isConnecting, setIsConnecting] = useState(false)
+  const [newCardType, setNewCardType] = useState<string>()
+ 
   useEffect(():any => {
     if(!wallet){
       console.log('wallet is undefined')
@@ -40,9 +46,48 @@ export default function List() {
     })
     setCardList(arr)
   }
+  const onClinkMint = async () => {
+    setIsConnecting(true)
+    try {
+        if(!wallet) return;
+
+        const response = await mintAninalTokenContract.methods
+        .mintAnimalToken()
+        .send({from: wallet.accounts[0]})
+        console.debug(response)
+
+        if(response.status){
+            const balance = await mintAninalTokenContract.methods.balanceOf(wallet.accounts[0]).call()
+        
+            const tokenIdx = await mintAninalTokenContract.methods
+            .tokenOfOwnerByIndex(wallet.accounts[0], balance.length - 1).call()
+
+            const animalType = await mintAninalTokenContract.methods
+            .animalTypes(tokenIdx)
+            .call()
+
+            setNewCardType(animalType)
+            setIsConnecting(false)
+        }
+    } catch (error) {
+        console.error(error)
+        setIsConnecting(false)
+    }
+}
   return (
     <div>
       <h1>Tutor List</h1>
+      {
+            newCardType ? 
+            <Card newCardType={newCardType}/> 
+            : 
+            <div className="mx-auto" onClick={onClinkMint}>
+                <button className="flex gap-1 items-center px-4 py-2 font-semibold text-sm bg-white text-slate-700 border border-slate-300 rounded-md shadow-sm ring-gray-border-300 ring-offset-2 ring-offset-slate-50  focus:outline-none focus:ring-2  dark:bg-slate-700 dark:text-slate-200 dark:border-transparent">
+                    {isConnecting ? <Loading/> : ''}
+                    <span>Create Tutor</span>
+                </button>
+            </div>
+        }
       <div className='px-0 md:px-4 mx-auto max-w-[1012px]'>
           <div className='grid gap-4 md:grid-cols-3 lg:grid-cols-4'>
                   {
