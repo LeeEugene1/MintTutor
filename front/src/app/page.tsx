@@ -1,4 +1,5 @@
 import BaseSection from '@/components/BaseSection';
+import FAQ from '@/components/FAQ';
 import Link from 'next/link';
 import React from 'react';
 
@@ -286,101 +287,7 @@ export default function Home() {
       </section>
 
       {/* FAQ section */}
-      <section className="w-full my-24" data-v-b444fb2c="">
-        <div className="relative max-w-screen-xl px-4 sm:px-8 mx-auto grid grid-cols-12 gap-x-6 overflow-hidden" data-v-b444fb2c="">
-          <div data-aos="fade-right" data-aos-delay="150" className="col-span-12 lg:col-span-6 aos-init aos-animate" data-v-b444fb2c="">
-            <div className="w-full" data-v-b444fb2c="">
-              <img src="/assets/img/customerService.jpeg" alt="" className="w-full" data-v-b444fb2c=""/>
-            </div>
-          </div>
-          <div data-aos="fade-left" data-aos-delay="150" className="col-span-12 lg:col-span-6 px-4 sm:px-6 mt-8 aos-init aos-animate" data-v-b444fb2c="">
-            <span className="text-base text-gradient font-semibold uppercase mb-4 sm:mb-2" data-v-b444fb2c="">
-              Support
-            </span>
-          <h2 className="text-3xl sm:text-4xl font-semibold mb-10 sm:mb-6" data-v-b444fb2c="">
-            Frequently asked questions</h2>
-            <ul className="shadow-box" data-v-b444fb2c="">
-              <li className="relative border-b-2 border-gray-200" data-v-b444fb2c="">
-                <button type="button" className="w-full py-4 text-left">
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">How does Mint Tutor work?</span>
-                    <span aria-hidden="true" role="img" className="material-design-icon chevron-down-icon">
-                      <svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24" className="material-design-icon__svg">
-                        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z">
-                        </path>
-                      </svg>
-                    </span>
-                    </div>
-                    <div className="relative overflow-hidden transition-all duration-700">
-                      <div className="py-2">
-                        <p className="text-sm text-gray-700 tracking-wide leading-relaxed">
-                        At MintTutor, users can select virtual tutors based on their desired topics or subjects and engage in real-time chat to ask questions and learn. Each tutor is created using Minting (NFT) technology, offering a unique and tailored learning experience.                        </p>
-                      </div>
-                    </div>
-                  </button>
-                </li>
-                <li className="relative border-b-2 border-gray-200" data-v-b444fb2c="">
-                    <button type="button" className="w-full py-4 text-left">
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">How are tutors selected on Mint Tutor?</span> 
-                        <span aria-hidden="true" role="img" className="material-design-icon chevron-down-icon">
-                          <svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24" className="material-design-icon__svg">
-                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z">
-                            </path>
-                          </svg>
-                        </span>
-                      </div>
-                      <div className="relative overflow-hidden transition-all duration-700">
-                        <div className="py-2">
-                          <p className="text-sm text-gray-700 tracking-wide leading-relaxed">
-                          Tutors on MintTutor are experts chosen for their specialized skills and knowledge. They are minted as NFTs to ensure users receive top-quality education across various fields.                          </p>
-                        </div>
-                      </div>
-                      </button>
-                  </li>
-                  <li className="relative border-b-2 border-gray-200" data-v-b444fb2c="">
-                      <button type="button" className="w-full py-4 text-left">
-                        <div className="flex items-center justify-between">
-                          <span className="font-medium">How is the learning experience personalized on Mint Tutor?</span> <span aria-hidden="true" role="img" className="material-design-icon chevron-down-icon">
-                            <svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24" className="material-design-icon__svg">
-                              <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z">
-                              </path>
-                            </svg>
-                          </span>
-                        </div>
-                        <div className="relative overflow-hidden transition-all duration-700">
-                          <div className="py-2">
-                            <p className="text-sm text-gray-700 tracking-wide leading-relaxed">
-                            MintTutor provides personalized learning paths tailored to each user's learning style and preferences. Learning plans are adjusted based on the user's progress, allowing for customized learning centered around individual interests and goals.                      
-                            </p>
-                          </div>
-                        </div>
-                      </button>
-                    </li>
-                    <li className="relative border-b-2 border-gray-200" data-v-b444fb2c="">
-                      <button type="button" className="w-full py-4 text-left">
-                        <div className="flex items-center justify-between">
-                          <span className="font-medium">How do I actually create Virtual Tutor?</span> 
-                          <span aria-hidden="true" role="img" className="material-design-icon chevron-up-icon">
-                            <svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24" className="material-design-icon__svg">
-                              <path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z">
-                            </path>
-                          </svg>
-                          </span>
-                        </div>
-                      </button>
-                      <div className="relative overflow-hidden transition-all duration-700">
-                        <div className="py-2">
-                          <p className="text-sm text-gray-700 tracking-wide leading-relaxed">
-                          You can easily create a virtual tutor through Minting. Since we are using the Polygon network, please prepare a wallet with Polygon assets first.                          </p>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-
+      <FAQ/>
       <div className="w-full my-10 flex justify-center">
         <a
           href="#navbar"

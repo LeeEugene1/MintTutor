@@ -157,7 +157,7 @@ const Header:React.FC= () => {
       {
         showModal &&
         <div id="modal">
-          <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm
+          <div className="fixed z-10 inset-0 bg-black bg-opacity-50 backdrop-blur-sm
         flex justify-center items-center" onClick={handleCloseModal}>
           </div>
           <div className="shell relative overflow-hidden rounded-none md:rounded-3xl">
