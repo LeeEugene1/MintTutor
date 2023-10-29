@@ -21,7 +21,6 @@ export default function page() {
     const API_KEY = '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'//test
 
     useEffect(()=>{
-        debugger;
         const url = new URL(window.location.href);
         const tutorType = url.searchParams.get('tutor');
         console.log(tutorType);
