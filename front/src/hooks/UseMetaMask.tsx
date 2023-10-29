@@ -40,7 +40,6 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
     const [QrUrl, setQrUrl] = useState('')
     const [intervalId, setIntervalId] = useState<NodeJS.Timer | null>(null); // 타입을 명시적으로 선언
     const [counts, setCounts] = useState(0)
-    // const [logined_platform, setLogined_platform] = useState('metamask')
     const [wallet, setWallet] = useState(disconnectedState)
     const [hasProvider, setHasProvider] = useState<boolean | null>(null)
     const [isConnecting, setIsConnecting] = useState(false)
@@ -86,16 +85,6 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
 
     const updateWalletAndAccounts = useCallback(_updateWallet,[_updateWallet])
     const updateWallet = useCallback((accounts: any) => _updateWallet(accounts),[_updateWallet])
-
-    useEffect(()=>{
-        console.debug('mode',process.env.NODE_ENV)
-        // if(import.meta.env){
-        //     const VITE_ENV = import.meta.env
-        //     console.debug(VITE_ENV)
-        //     const {VITE_REACT_APP_URL, VITE_REACT_APP_AUTH} = VITE_ENV
-        //     setEnv({VITE_REACT_APP_URL, VITE_REACT_APP_AUTH})
-        // }
-    },[])//딱 1번만
 
     useEffect(()=>{
         if(counts > 10 && intervalId > 0 && isConnecting){
@@ -151,7 +140,6 @@ export const MetaMaskContextProvider = ({children}:PropsWithChildren) => {
         })
 
         const message = 'dapp-sign'
-        // const message = `0x${Buffer.from('dapp-sign', 'utf8').toString('hex')}`;
         const hash = web3.utils.soliditySha3(message, accounts[0])
         const signature = await window.ethereum.request({
             method: 'personal_sign',
