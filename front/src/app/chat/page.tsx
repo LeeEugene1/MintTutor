@@ -3,8 +3,14 @@
 import React,{useEffect, useState} from 'react'
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css'
 import { MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator} from '@chatscope/chat-ui-kit-react'
+import Image from 'next/image';
 
+type tutorInfoType = {
+    tutorType:string,
+    name:string
+}
 export default function page() {
+    const [tutorInfo, setTutorInfo] = useState<tutorInfoType>()
     const [typing, setTyping] = useState(false)
     const [messages, setMessages] = useState([
         {
@@ -12,13 +18,26 @@ export default function page() {
             sender:"ChatGPT"
         }
     ])
-    // const API_KEY = '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'
-    // const API_KEY = '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'//test
-    const API_KEY = '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'//test
+    const API_KEY = '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'//test
 
     useEffect(()=>{
-        console.log(messages)
-    },messages)
+        debugger;
+        const url = new URL(window.location.href);
+        const tutorType = url.searchParams.get('tutor');
+        console.log(tutorType);
+        const TutorMap = {
+            '1' : 'Julia',
+            '2' : 'Daniel',
+            '3' : 'Romeo',
+            '4' : 'Herim',
+            '5' : 'Emma',
+            '6' : 'Olivia'
+        }
+        setTutorInfo({
+            tutorType,
+            name:TutorMap[tutorType],
+        })
+    },[])
 
     const handleSend = async (message) => {
         const MsgOption = {
@@ -38,9 +57,6 @@ export default function page() {
     }
 
     const processMsgToChatGPT = async (chatMessages) => {
-        // {sender:"user" or "ChatGPT", message:"The message content here"}
-        // apiMessages {role:"user" or "assistant", content:"The message content here"}
-        debugger;
         let apiMessages = chatMessages.map((messageObj)=>{
             let role = ''
             if(messageObj.sender === 'ChatGPT'){
@@ -66,14 +82,6 @@ export default function page() {
             ]
         }
 
-        // await fetch('/cat',{
-        //     method:'GET'
-        // })
-        // .then(e => e.json())
-        // .then(result => {
-        //     console.log(result)
-        // })
-
         await fetch("https://api.openai.com/v1/chat/completions", {//https://api.openai.com/vi/chat/completions
             method:'POST',
             headers:{
@@ -95,20 +103,33 @@ export default function page() {
         })
     }
   return (
-    <div>
-        <MainContainer>
-            <ChatContainer>
-                <MessageList
-                    scrollBehavior='smooth'
-                    typingIndicator={typing ? <TypingIndicator content="Tutor is typing"/>:null}
-                >
-                    {messages.map((message, i)=>{
-                        return <Message key={i} model={message}/>
-                    })}
-                </MessageList>
-                <MessageInput placeholder='Type message here' onSend={handleSend}/>
-            </ChatContainer>
-        </MainContainer>
+    <div className='p-8'>
+        {
+            tutorInfo &&
+            <div>
+                <div className='flex gap-2 items-center mb-5'>
+                    <Image src={`/images/${tutorInfo.tutorType}.png`} 
+                    width={20}
+                    height={20}
+                    alt="Image" 
+                    className="w-12 h-12 rounded-full object-cover" />
+                    <p className='text-xl text-slate-700'>Chat with {tutorInfo.name}</p>
+                </div>
+                    <MainContainer>
+                        <ChatContainer>
+                            <MessageList
+                                scrollBehavior='smooth'
+                                typingIndicator={typing ? <TypingIndicator content="Tutor is typing"/>:null}
+                            >
+                                {messages.map((message, i)=>{
+                                    return <Message key={i} model={message}/>
+                                })}
+                            </MessageList>
+                            <MessageInput placeholder='Type message here' onSend={handleSend} attachButton={false}/>
+                        </ChatContainer>
+                    </MainContainer>
+            </div>
+        }
     </div>
   )
 }
