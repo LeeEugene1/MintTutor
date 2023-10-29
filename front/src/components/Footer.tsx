@@ -1,17 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import React from "react";
 import Container from "./Container";
 
 export default function Footer() {
-  const navigation = [
-    "Product",
-    "Features",
-    "Pricing",
-    "Company",
-    "Blog",
-  ];
-  const legal = ["Terms", "Privacy", "Legal"];
   return (
     <div className="relative">
       <Container>
@@ -23,32 +14,10 @@ export default function Footer() {
                 <Link className="text-header-gradient" href='/home'>Mint Tutor</Link>
               </div>
             </div>
-
             <div className="max-w-md mt-4 text-gray-500 dark:text-gray-400">
             Mint Tutor shapes the future of education, creating a virtual world where learning and chatting come together seamlessly.
-            </div>
-
-            
+            </div> 
           </div>
-
-          {/* <div>
-            <div className="flex flex-wrap w-full -mt-2 -ml-3 lg:ml-0">
-              {navigation.map((item, index) => (
-                <Link key={index} href="/" className="w-full px-4 py-2 text-gray-500 rounded-md dark:text-gray-300 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700">                 
-                    {item}
-                </Link>
-              ))}
-            </div>
-          </div> */}
-          {/* <div>
-            <div className="flex flex-wrap w-full -mt-2 -ml-3 lg:ml-0">
-              {legal.map((item, index) => (
-                <Link key={index} href="/" className="w-full px-4 py-2 text-gray-500 rounded-md dark:text-gray-300 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700">      
-                    {item}
-                </Link>
-              ))}
-            </div>
-          </div> */}
           <div className="">
             <div>Follow us</div>
             <div className="flex mt-5 space-x-5 text-gray-400 dark:text-gray-500">

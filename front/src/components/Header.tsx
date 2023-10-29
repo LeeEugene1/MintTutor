@@ -1,16 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from 'next/link'
+import Link from 'next/link';
 import Web3 from "web3";
 import QRCode from "react-qr-code";
 import { formatAddress } from "@/utils/func";
 import { UseMetaMask } from "@/hooks/UseMetaMask";
 import Loading from "./Loading";
 import Timer from "./Timer";
-import AOS from 'aos'
+import AOS from "aos";
 import 'aos/dist/aos.css'
-import { usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation';
 
 const Header:React.FC= () => {
   const [showModal, setShowModal] = useState(false)
@@ -89,11 +89,7 @@ const Header:React.FC= () => {
               <Link className="text-header-gradient" href='/'>Mint Tutor</Link>
             </div>
             <nav className="hidden md:flex items-center space-x-4 transition-menu opacity-100">
-              <Link href='/list' className="hover:text-gray-500">TUTOR</Link>
-              <Link href='/chat' className="hover:text-gray-500">CHAT</Link>
-              {/* <button type="button" className="hover:text-gray-500" onClick={()=>router.push('/list')}>
-                TUTOR
-              </button> */}
+              <Link href='/list' className="text-slate-700 hover:text-gray-500">Get Started</Link>
               {
                 (wallet.accounts.length < 1) ?
                 <button className="px-4 py-2 font-semibold text-sm bg-white text-slate-700 border border-slate-300 rounded-md shadow-sm ring-gray-border-300 ring-offset-2 ring-offset-slate-50 
@@ -117,7 +113,6 @@ const Header:React.FC= () => {
                   }
                 </button>
               }
-              {/* <p onClick={handleModeChange}>Mode</p> */}
             </nav>
             
             <div className="md:hidden">
