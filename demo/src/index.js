@@ -35,7 +35,6 @@ const updateButtons = () => {
     // }
 }
 const onClickConnect = async () => {
-    debugger;
     try {
     const newAccounts = await ethereum.request({
         method: 'eth_requestAccounts',

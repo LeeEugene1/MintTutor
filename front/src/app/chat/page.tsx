@@ -6,10 +6,18 @@ import { MainContainer, ChatContainer, MessageList, Message, MessageInput, Typin
 import Image from 'next/image';
 
 type tutorInfoType = {
-    tutorType:string,
+    tutorType:string | null,
     name:string
 }
-export default function page() {
+type TutorMapType = {
+    '1': string;
+    '2': string;
+    '3': string;
+    '4': string;
+    '5': string;
+    '6': string;
+};
+export default function ChatPage() {
     const [tutorInfo, setTutorInfo] = useState<tutorInfoType>()
     const [typing, setTyping] = useState(false)
     const [messages, setMessages] = useState([
@@ -22,9 +30,9 @@ export default function page() {
 
     useEffect(()=>{
         const url = new URL(window.location.href);
-        const tutorType = url.searchParams.get('tutor');
+        const tutorType: string = url.searchParams.get('tutor') || '0';
         console.log(tutorType);
-        const TutorMap = {
+        const tutorMap:TutorMapType = {
             '1' : 'Julia',
             '2' : 'Daniel',
             '3' : 'Romeo',
@@ -32,10 +40,13 @@ export default function page() {
             '5' : 'Emma',
             '6' : 'Olivia'
         }
-        setTutorInfo({
-            tutorType,
-            name:TutorMap[tutorType],
-        })
+        if(tutorType){
+            const name = tutorMap[tutorType]
+            setTutorInfo({
+                tutorType,
+                name,
+            })
+        }
     },[])
 
     const handleSend = async (message) => {
