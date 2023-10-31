@@ -2,7 +2,7 @@
 
 ## Demo
 https://master.d39g2qz4ed33xv.amplifyapp.com/
-현재 AWS Amplify만 완료 도메인연동, 람다진행중
+현재 AWS Amplify 배포진행중. 도메인연동, 백엔드서버 연동예정
 
 ## 개요
 영어 학습을 위해 스케쥴을 맞추는 불편함을 해결하고자
@@ -11,7 +11,7 @@ https://master.d39g2qz4ed33xv.amplifyapp.com/
 ## Tech Requirement (Tech Stack)
 - Smart contract
 - HTML, TailwindCSS, Javascript
-- Next 13
+- vite react
 - Chat GPT api
 - Nodejs
 - AWS Amplify
