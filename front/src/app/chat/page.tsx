@@ -26,7 +26,7 @@ export default function ChatPage() {
             sender:"ChatGPT"
         }
     ])
-    const API_KEY = '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'//test
+    const API_KEY = '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'//test
 
     useEffect(()=>{
         const url = new URL(window.location.href);
