@@ -1,8 +1,8 @@
 # MINT TUTOR
 
-## Contributor
-
-@LeeEugene1
+## Demo
+https://master.d39g2qz4ed33xv.amplifyapp.com/
+현재 AWS Amplify만 완료 도메인연동, 람다진행중
 
 ## 개요
 영어 학습을 위해 스케쥴을 맞추는 불편함을 해결하고자
@@ -14,7 +14,7 @@
 - Next 13
 - Chat GPT api
 - Nodejs
-- AWS 배포 진행중
+- AWS Amplify
 
 ### MAIN & CONNECT WALLET
 https://github.com/LeeEugene1/khacker-client/assets/59987309/a47a0bde-edd1-4f45-aace-ef7fd5244e31
