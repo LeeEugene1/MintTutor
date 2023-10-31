@@ -20,7 +20,7 @@
 https://github.com/LeeEugene1/khacker-client/assets/59987309/a47a0bde-edd1-4f45-aace-ef7fd5244e31
 
 ### MINT TUTOR
-https://github.com/LeeEugene1/khacker-client/assets/59987309/e4a3f5ba-580e-434d-977c-5b36da4b005e
+<img width="1440" alt="tutorList" src="https://github.com/LeeEugene1/khacker-client/assets/59987309/e4a3f5ba-580e-434d-977c-5b36da4b005e">
 
 ### CHAT
-https://github.com/LeeEugene1/khacker-client/assets/59987309/131878d3-abff-49b1-a967-36553bb608cc
+<img width="1440" alt="chatPage" src="https://github.com/LeeEugene1/khacker-client/assets/59987309/131878d3-abff-49b1-a967-36553bb608cc">
