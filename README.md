@@ -2,7 +2,6 @@
 
 ## Demo
 https://master.d39g2qz4ed33xv.amplifyapp.com/
-현재 AWS Amplify 배포진행중. 도메인연동, 백엔드서버 연동예정
 
 ## 개요
 영어 학습을 위해 스케쥴을 맞추는 불편함을 해결하고자
